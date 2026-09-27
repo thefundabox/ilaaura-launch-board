@@ -52,8 +52,8 @@ button{cursor:pointer}
 .band::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;border:1px solid rgba(227,160,58,.35);box-shadow:0 0 0 22px rgba(227,160,58,.06),0 0 0 48px rgba(227,160,58,.04);pointer-events:none}
 .band .shell{padding-block:26px 24px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:end;position:relative;z-index:1}
 .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.user{letter-spacing:0;text-transform:none;font-weight:500;color:var(--bandMuted);font-size:13px;display:flex;gap:10px;align-items:center}
-.user button{border:1px solid rgba(255,255,255,.25);background:transparent;color:var(--bandInk);border-radius:99px;padding:3px 10px;font-size:12.5px}
+.user{flex-wrap:wrap;letter-spacing:0;text-transform:none;font-weight:500;color:var(--bandMuted);font-size:13px;display:flex;gap:10px;align-items:center}
+.user button,.user a{text-decoration:none;border:1px solid rgba(255,255,255,.25);background:transparent;color:var(--bandInk);border-radius:99px;padding:3px 10px;font-size:12.5px}
 h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,5vw,46px);line-height:1.05;margin:6px 0 0;text-wrap:balance}
 .sub{color:var(--bandMuted);margin:8px 0 0;max-width:56ch;font-size:14px}
 .ring{display:flex;align-items:center;gap:14px}
@@ -182,7 +182,7 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
 <header class="band">
   <div class="shell">
     <div>
-      <div class="eyebrow"><span>ILAAURA · Diwali 2026</span><span class="user" id="user" hidden><span id="userEmail"></span><button id="signOut" type="button">Sign out</button></span></div>
+      <div class="eyebrow"><span>ILAAURA · Diwali 2026</span><span class="user" id="user" hidden><span id="userEmail"></span><a id="waShare" target="_blank" rel="noopener">Share on WhatsApp</a><button id="signOut" type="button">Sign out</button></span></div>
       <h1>Launch Readiness</h1>
       <p class="sub">Tap an area to see its tasks. Tap a task's status to move it along. Everything you change or add is saved for both of you.</p>
     </div>

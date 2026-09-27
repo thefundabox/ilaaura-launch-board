@@ -168,6 +168,8 @@
   const sb=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
   let started=false;
 
+  const shareMsg="Hi Shamika! Our ILAAURA launch board is live 🎉\n"+location.origin+location.pathname+"\n\nSign in with your email and tap the link Supabase sends you (check spam the first time). Anything either of us changes shows up for the other straight away.";
+  $("waShare").href="https://wa.me/?text="+encodeURIComponent(shareMsg);
   $("signOut").onclick=async()=>{await sb.auth.signOut();location.reload();};
   $("gateForm").addEventListener("submit",async e=>{
     e.preventDefault();
