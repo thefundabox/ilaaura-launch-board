@@ -242,7 +242,7 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
 <header class="band">
   <div class="shell">
     <div>
-      <div class="eyebrow"><span>ILAAURA · Diwali 2026</span><span class="user" id="user" hidden><span id="userEmail"></span><a id="waShare" target="_blank" rel="noopener">Share on WhatsApp</a><button id="signOut" type="button">Sign out</button></span></div>
+      <div class="eyebrow"><span>ILAAURA · Diwali 2026</span><span class="user" id="user" hidden><span id="userEmail"></span><a id="waShare" target="_blank" rel="noopener">Share on WhatsApp</a><button id="pwBtn" type="button">Set password</button><button id="signOut" type="button">Sign out</button></span></div>
       <h1>Launch Readiness</h1>
       <p class="sub">Tap an area to see its tasks. Tap a task's status to move it along. Everything you change or add is saved for both of you.</p>
     </div>
@@ -254,10 +254,12 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
 <section class="shell" id="gate" hidden>
   <div class="gate">
     <h2>Sign in</h2>
-    <p id="gateMsg">Enter your email and we'll send you a sign-in link.</p>
+    <p id="gateMsg">Sign in with your email and password.</p>
     <form id="gateForm">
-      <input id="gateEmail" class="field" type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email">
-      <button class="add" type="submit" id="gateBtn">Send sign-in link</button>
+      <input id="gateEmail" class="field" type="email" required autocomplete="username" placeholder="you@example.com" aria-label="Email">
+      <input id="gatePass" class="field" type="password" autocomplete="current-password" placeholder="Password" aria-label="Password">
+      <button class="add" type="submit" id="gateBtn">Sign in</button>
+      <button class="linkbtn" type="button" id="linkBtn">No password yet, or forgot it? Email me a sign-in link</button>
     </form>
   </div>
 </section>
@@ -343,6 +345,16 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
     <p style="margin:0;color:var(--muted);font-size:13px">Each metric's target line runs straight between these checkpoints. Totals are cumulative.</p>
     <div id="tgtFields" style="display:flex;flex-direction:column;gap:10px"></div>
     <div class="dact"><button type="button" class="btn" id="tgtReset">Reset to suggested</button><span class="sp"></span><button type="button" class="btn" id="tgtCancel">Cancel</button><button type="submit" class="add" id="tgtSave">Save</button></div>
+  </form>
+</dialog>
+<dialog id="pwDlg">
+  <form id="pwFrm" method="dialog">
+    <h3>Set a password</h3>
+    <p style="margin:0;color:var(--muted);font-size:13px" id="pwMsg">Then you can sign in with your email and password, without waiting for an email link.</p>
+    <input id="pwEmail" type="email" autocomplete="username" hidden>
+    <label class="fg">New password<input id="pwNew" class="field" type="password" autocomplete="new-password" minlength="8" required></label>
+    <label class="fg">Type it again<input id="pwAgain" class="field" type="password" autocomplete="new-password" minlength="8" required></label>
+    <div class="dact"><span class="sp"></span><button type="button" class="btn" id="pwCancel">Not now</button><button type="submit" class="add" id="pwSave">Save password</button></div>
   </form>
 </dialog>
 <datalist id="taskList"></datalist>

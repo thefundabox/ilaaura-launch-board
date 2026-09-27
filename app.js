@@ -459,7 +459,10 @@
   if(!cfg.supabaseUrl||!cfg.supabaseAnonKey){$("localNote").hidden=false;startDb(IlaStore.local());return;}
   if(!window.supabase){showGate("Couldn't load the sign-in library. Check your connection and reload.",false);return;}
 
-  const sb=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
+  // Read before the client consumes the URL: did the person arrive from an emailed sign-in link?
+  const cameFromLink=/type=(magiclink|signup|recovery|invite)/.test(location.hash)||/[?&]code=/.test(location.search);
+  // Sessions are kept in this browser and refreshed automatically, so people stay signed in until they sign out.
+  const sb=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   let started=false;
 
   const shareMsg="Hi Shamika! Our ILAAURA launch board is live 🎉\n"+location.origin+location.pathname+"\n\nSign in with your email and tap the link Supabase sends you (check spam the first time). Anything either of us changes shows up for the other straight away.";
@@ -467,12 +470,39 @@
   $("signOut").onclick=async()=>{await sb.auth.signOut();location.reload();};
   $("gateForm").addEventListener("submit",async e=>{
     e.preventDefault();
-    const email=$("gateEmail").value.trim(),b=$("gateBtn");if(!email)return;
+    const email=$("gateEmail").value.trim(),password=$("gatePass").value,b=$("gateBtn");if(!email)return;
+    if(!password){toast("Enter your password, or use the email link below.");$("gatePass").focus();return;}
     b.disabled=true;
-    const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});
+    const {error}=await sb.auth.signInWithPassword({email,password});
+    b.disabled=false;
+    if(error)$("gateMsg").textContent=/invalid/i.test(error.message)?"That email and password don't match. If you haven't set a password yet, use the email link below, then set one.":"Couldn't sign in: "+error.message;
+  });
+  $("linkBtn").onclick=async()=>{
+    const email=$("gateEmail").value.trim();
+    if(!$("gateEmail").checkValidity()||!email){toast("Enter your email first.");$("gateEmail").focus();return;}
+    const b=$("linkBtn");b.disabled=true;
+    const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
     b.disabled=false;
     if(error)toast("Couldn't send the link: "+error.message);
-    else showGate("Check "+email+" for a sign-in link. You can close this tab.",false);
+    else showGate("Check "+email+" for a sign-in link. Open it in this same browser, then set a password.",false);
+  };
+
+  function openPw(first){
+    $("pwMsg").textContent=first?"You're signed in. Set a password so next time you can sign in straight away, without an email link.":"Then you can sign in with your email and password, without waiting for an email link.";
+    $("pwNew").value="";$("pwAgain").value="";$("pwDlg").showModal();
+  }
+  $("pwBtn").onclick=()=>openPw(false);
+  $("pwCancel").onclick=()=>$("pwDlg").close();
+  $("pwFrm").addEventListener("submit",async e=>{
+    e.preventDefault();
+    const a=$("pwNew").value,b2=$("pwAgain").value;
+    if(a.length<8){toast("Use at least 8 characters.");return;}
+    if(a!==b2){toast("The two passwords don't match.");return;}
+    const b=$("pwSave");b.disabled=true;
+    const {error}=await sb.auth.updateUser({password:a,data:{has_password:true}});
+    b.disabled=false;
+    if(error){toast("Couldn't save the password: "+error.message);return;}
+    $("pwDlg").close();toast("Password saved. Use it next time you sign in.");
   });
 
   async function onSignedIn(session){
@@ -483,11 +513,14 @@
     if(error){showGate("Couldn't check your access. Reload to try again.",false);return;}
     if(!data.length){showGate(email+" isn't on this board yet. Ask the board owner to add you, then reload.",false);return;}
     memberName=data[0].name||"";
+    $("pwEmail").value=email;
+    if((session.user.user_metadata||{}).has_password)$("pwBtn").textContent="Change password";
     startDb(IlaStore.supabase(sb));
+    if(cameFromLink&&!(session.user.user_metadata||{}).has_password)openPw(true);
   }
   sb.auth.onAuthStateChange((event,session)=>{
     // Supabase advises against awaiting its own calls inside this callback.
     if(session)setTimeout(()=>onSignedIn(session),0);
-    else if(!started)showGate("Enter your email and we'll send you a sign-in link.",true);
+    else if(!started)showGate("Sign in with your email and password.",true);
   });
 })();

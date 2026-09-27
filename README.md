@@ -50,7 +50,11 @@ With `config.js` left empty, the board runs in **local mode** and saves to the b
 - **Waits on**: in a task's editor, add the tasks it depends on. Cards show what they're waiting for, and flag in red when a dependency is due *after* the task itself.
 
 ## Signing in
-Enter your email and click the link Supabase sends you. Emails that aren't in `board_members` can sign in but see a "not on this board" message and can't read or change anything.
+Sign in with your email and password. You stay signed in on that browser until you tap **Sign out**.
+
+First time, or forgot your password? Enter your email and tap **Email me a sign-in link**. Open the link in the same browser you use for the board. The board then asks you to set a password; you can also change it any time with **Set password** at the top.
+
+The email link only works for addresses already added to the board; it won't create new accounts. Emails that aren't in `board_members` can't read or change anything.
 
 Supabase's built-in email sender has a low hourly limit. That's fine for two people; for more, set up custom SMTP under **Authentication → Emails**.
 
