@@ -157,7 +157,7 @@ main.shell{padding-block:22px 64px;display:flex;flex-direction:column;gap:26px}
 .gate p{margin:0;color:var(--muted);font-size:14px}
 .gate form{display:flex;flex-direction:column;gap:10px}
 
-dialog{border:0;border-radius:16px;background:var(--card);color:var(--ink);padding:0;width:min(540px,calc(100vw - 32px));max-height:calc(100vh - 40px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+dialog{overflow:auto;border:0;border-radius:16px;background:var(--card);color:var(--ink);padding:0;width:min(540px,calc(100vw - 32px));max-height:calc(100vh - 40px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
 dialog::backdrop{background:rgba(30,14,26,.5)}
 dialog form{padding:20px;display:flex;flex-direction:column;gap:12px}
 dialog h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
@@ -174,6 +174,66 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
 .btn.danger{color:var(--bad);border-color:var(--bad)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:99px;font-size:14px;max-width:calc(100vw - 32px);z-index:20}
 .msg{padding:28px;text-align:center;color:var(--muted)}
+/* my day */
+.me-pills{display:inline-flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:3px}
+.me-pills button{border:0;background:transparent;border-radius:99px;padding:4px 11px;font-size:13px;color:var(--muted)}
+.me-pills button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.headtools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.myday{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:760px){.myday{grid-template-columns:1fr}}
+.mcol{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;border-top:4px solid var(--tone)}
+.mcol h3{margin:0;font-size:14.5px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.mcol h3 b{font-family:var(--display);font-weight:400;font-size:24px;color:var(--tone)}
+.mcol .none{font-size:13.5px;color:var(--muted)}
+.mrow{display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:8px;padding:6px 8px;font-size:13.5px}
+.mrow .dotbtn{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);background:transparent;padding:0}
+.mrow .dotbtn.s-doing{border-color:var(--doing);background:var(--doingSoft)}
+.mrow .dotbtn.s-blocked{border-color:var(--bad);background:var(--badSoft)}
+.mrow .dotbtn:hover{border-color:var(--good);background:var(--goodSoft)}
+.mrow .mt{flex:1;min-width:0;border:0;background:none;padding:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow .mt:hover{text-decoration:underline}
+.mrow .md{font-family:var(--mono);font-size:11.5px;color:var(--muted);flex:none}
+.mrow .md.over{color:var(--bad)}
+.mrow .mw{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* numbers */
+.nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.num{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px}
+.num .nh{flex-wrap:wrap;display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.num .nv{font-family:var(--display);font-size:30px;line-height:1.05;font-variant-numeric:tabular-nums}
+.num .nv small{font-family:var(--body);font-size:13px;color:var(--muted);margin-left:6px}
+.num .nt{font-size:12.5px;color:var(--muted)}
+.num .nt.t-good{color:var(--good);font-weight:600}
+.num .nt.t-bad{color:var(--bad);font-weight:600}
+.num .nh>span:first-child{white-space:nowrap}
+.num .nneed{font-size:13px;font-weight:600}
+.num svg{width:100%;height:54px;display:block}
+.pill{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.pill.good{background:var(--goodSoft);color:var(--good)}
+.pill.bad{background:var(--badSoft);color:var(--bad)}
+.pill.warn{background:var(--warnSoft);color:var(--warn)}
+.pill.neutral{background:var(--soft);color:var(--muted)}
+.pace{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+@media (max-width:760px){.pace{grid-template-columns:1fr}}
+.ptile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px}
+.ptile .ph{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600}
+.ptile .pn{font-size:14px}
+.ptile .pn b{font-family:var(--display);font-weight:400;font-size:24px;margin-right:4px}
+.ptile .pd{font-size:13px;color:var(--muted)}
+
+/* dependencies */
+.wait{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.wait span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wait .late{color:var(--bad);font-weight:600}
+.deps{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border-radius:99px;padding:4px 6px 4px 10px;font-size:13px;color:var(--ink);max-width:100%}
+.chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip button{border:0;background:var(--line);border-radius:50%;width:18px;height:18px;line-height:1;padding:0;font-size:12px;flex:none}
+.tgrp{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.tgrp b{font-size:13.5px}
+.trow{display:grid;grid-template-columns:1fr 1fr 28px;gap:6px}
+.trow button{border:0;background:var(--soft);border-radius:8px}
+.linkbtn{border:0;background:none;color:var(--muted);font-size:13px;padding:0;text-align:left;text-decoration:underline;text-underline-offset:3px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -205,6 +265,17 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
 <main class="shell" id="app" hidden>
   <div class="note-strip local" id="localNote" hidden><span class="dot"></span><div><b>Local mode.</b> Supabase isn't configured, so tasks are saved in this browser only. Fill in <code>config.js</code> to share the board.</div></div>
   <div class="note-strip"><span class="dot"></span><div><b>Five days from launch to Dhanteras.</b> Take pre-orders from 20 Oct, dispatch them on 1 Nov, and publish a firm "order by" date for Diwali delivery once your courier confirms festive transit times.</div></div>
+
+  <section>
+    <div class="sechead"><h2>My day</h2><div class="headtools"><div class="me-pills" id="mePills" role="group" aria-label="Who are you"></div><button class="add" id="standupBtn" type="button">Send standup</button></div></div>
+    <div class="myday" id="myday"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><h2>Are we on track?</h2><div class="headtools"><button class="btn" id="tgtBtn" type="button">Edit targets</button><button class="add" id="numBtn" type="button">Update numbers</button></div></div>
+    <div class="nums" id="nums"></div>
+    <div class="pace" id="pace"></div>
+  </section>
 
   <section>
     <div class="sechead"><h2>Needs attention</h2><span class="hint">Tap a task to open it</span></div>
@@ -246,6 +317,7 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
       </label>
     </div>
     <div class="fg">Status<div class="stpick" id="f_s" role="group" aria-label="Status"></div></div>
+    <div class="fg">Waits on<div class="deps" id="f_deps"></div><input id="f_depin" class="field" list="taskList" placeholder="Type a task name, then pick it" autocomplete="off"></div>
     <label class="tog"><input id="f_crit" type="checkbox"> Critical path (launch slips if this slips)</label>
     <label class="fg">Notes<textarea id="f_n" class="field" rows="3" maxlength="1000"></textarea></label>
     <div class="dact">
@@ -256,6 +328,24 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
     </div>
   </form>
 </dialog>
+<dialog id="numDlg">
+  <form id="numFrm" method="dialog">
+    <h3>Update numbers</h3>
+    <p class="nt" style="margin:0;color:var(--muted);font-size:13px">Enter running totals as of the date below. Leave a box empty to skip it.</p>
+    <label class="fg">As of<input id="n_day" class="field" type="date" required></label>
+    <div class="grid2" id="numFields"></div>
+    <div class="dact"><span class="sp"></span><button type="button" class="btn" id="numCancel">Cancel</button><button type="submit" class="add" id="numSave">Save</button></div>
+  </form>
+</dialog>
+<dialog id="tgtDlg">
+  <form id="tgtFrm" method="dialog">
+    <h3>Targets</h3>
+    <p style="margin:0;color:var(--muted);font-size:13px">Each metric's target line runs straight between these checkpoints. Totals are cumulative.</p>
+    <div id="tgtFields" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div class="dact"><button type="button" class="btn" id="tgtReset">Reset to suggested</button><span class="sp"></span><button type="button" class="btn" id="tgtCancel">Cancel</button><button type="submit" class="add" id="tgtSave">Save</button></div>
+  </form>
+</dialog>
+<datalist id="taskList"></datalist>
 <datalist id="catList"></datalist>
 <datalist id="ownerList"></datalist>
 <div class="toast" id="toast" hidden></div>

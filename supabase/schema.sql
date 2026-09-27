@@ -55,3 +55,46 @@ begin
   alter publication supabase_realtime add table public.tasks;
 exception when duplicate_object then null;
 end $$;
+
+-- ---------------------------------------------------------------------------
+-- v2: task dependencies, completion times, member names, launch numbers.
+-- Also safe to re-run.
+
+alter table public.tasks add column if not exists dep text[] not null default '{}'; -- ids this task waits on
+alter table public.tasks add column if not exists done_at bigint;                    -- ms since epoch when marked done
+alter table public.board_members add column if not exists name text;                 -- matches the task Owner field
+
+-- One row per metric per day; values are running totals as of that day.
+create table if not exists public.metrics (
+  id  text primary key,                 -- '<day>:<k>'
+  day text not null,                    -- YYYY-MM-DD
+  k   text not null check (k in ('waitlist','orders','revenue','adspend')),
+  v   numeric not null check (v >= 0),
+  u   bigint,
+  by  text not null default ''
+);
+
+-- Target checkpoints: the target line runs straight between them.
+-- k = 'cpo' (cost per order ceiling) has a single row with day = ''.
+create table if not exists public.targets (
+  id  text primary key,                 -- '<k>:<day>' or 'cpo'
+  k   text not null,
+  day text not null default '',
+  v   numeric not null check (v >= 0)
+);
+
+alter table public.metrics enable row level security;
+alter table public.targets enable row level security;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['metrics','targets'] loop
+    execute format('drop policy if exists "members all" on public.%I', t);
+    execute format('create policy "members all" on public.%I for all to authenticated using (public.is_board_member()) with check (public.is_board_member())', t);
+    begin
+      execute format('alter publication supabase_realtime add table public.%I', t);
+    exception when duplicate_object then null;
+    end;
+  end loop;
+end $$;

@@ -19,12 +19,12 @@ With `config.js` left empty, the board runs in **local mode** and saves to the b
 
 ### 1. Create the Supabase project
 1. Sign up at supabase.com and create a new project (free tier is enough).
-2. Open **SQL Editor → New query**, paste in `supabase/schema.sql` and run it.
-3. Still in the SQL editor, add the people allowed on the board:
+2. Open **SQL Editor → New query**, paste in `supabase/schema.sql` and run it. It's safe to re-run after pulling updates.
+3. Still in the SQL editor, add the people allowed on the board. The name must match the Owner field on tasks:
    ```sql
-   insert into public.board_members (email) values
-     ('aamir@example.com'),
-     ('shamika@example.com');
+   insert into public.board_members (email, name) values
+     ('aamir@example.com', 'Aamir'),
+     ('shamika@example.com', 'Shamika');
    ```
 4. Load the existing tasks: paste in `private/seed.sql` and run it.
 
@@ -42,6 +42,12 @@ With `config.js` left empty, the board runs in **local mode** and saves to the b
    ```
 3. In the repo, go to **Settings → Pages**, set Source to **Deploy from a branch**, then pick `main` and `/ (root)`.
 4. After a minute the board is live at `https://<your-user>.github.io/ilaaura-launch-board/`.
+
+## What's on the board
+- **My day**: pick your name and see what's due today or overdue, the next 3 tasks, and anything waiting on someone else. Tap the circle to mark a task done. **Send standup** opens WhatsApp with a ready-made update: done since your last standup, today, next, waiting, your numbers and the pre-launch pace.
+- **Are we on track?**: running totals for waitlist, orders, revenue and ad spend against target lines, plus cost per order. Tap **Update numbers** once a day (totals so far, not the day's increase). **Edit targets** changes the checkpoints; each target line runs straight between them.
+- **Pace**: open tasks due before pre-launch and launch, the rate needed to finish them, and your actual completion rate over the last 7 days.
+- **Waits on**: in a task's editor, add the tasks it depends on. Cards show what they're waiting for, and flag in red when a dependency is due *after* the task itself.
 
 ## Signing in
 Enter your email and click the link Supabase sends you. Emails that aren't in `board_members` can sign in but see a "not on this board" message and can't read or change anything.
